@@ -48,55 +48,53 @@ $(document).ready(function(){
             <div id="contact_form">
             <form id="configform" method="post" name="update" action="ConfigureUpdateUpdate.action" enctype ="multipart/form-data">
             			<h2><s:property value="%{getText('configure.configure')}"/></h2>
-            				<label for="transcoder_vcodec"><s:property value="%{getText('configure.transcoder_vcodec')}"/>:</label> <input type="text" id="transcoder_vcodec" name="transcoder_vcodec" value="${transcoder_vcodec}" class="validate[required] required input_field" />
+            				<label for="vcodec"><s:property value="%{getText('configure.vcodec')}"/>:</label> <input type="text" id="vcodec" name="vcodec" value="${vcodec}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_bv"><s:property value="%{getText('configure.transcoder_bv')}"/>:</label> <input type="text" id="transcoder_bv" name="transcoder_bv" value="${transcoder_bv}" class="validate[required] required input_field" />
+                            <label for="vbitrate"><s:property value="%{getText('configure.vbitrate')}"/>:</label> <input type="text" id="vbitrate" name="vbitrate" value="${vbitrate}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_framerate"><s:property value="%{getText('configure.transcoder_framerate')}"/>:</label>  <input type="text" id="transcoder_framerate" name="transcoder_framerate" value="${transcoder_framerate}" class="validate[required,custom[integer]] required input_field" />
+                            <label for="vfps"><s:property value="%{getText('configure.vfps')}"/>:</label>  <input type="text" id="vfps" name="vfps" value="${vfps}" class="validate[required,custom[integer]] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_acodec"><s:property value="%{getText('configure.transcoder_acodec')}"/>:</label> <input type="text" id="transcoder_acodec" name="transcoder_acodec" value="${transcoder_acodec}" class="validate[required] required input_field" />
+                            <label for="acodec"><s:property value="%{getText('configure.acodec')}"/>:</label> <input type="text" id="acodec" name="acodec" value="${acodec}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_ar"><s:property value="%{getText('configure.transcoder_ar')}"/>:</label> <input type="text" id="transcoder_ar" name="transcoder_ar" value="${transcoder_ar}" class="validate[required,custom[integer]] required input_field" />
+                            <label for="abitrate"><s:property value="%{getText('configure.abitrate')}"/>:</label> <input type="text" id="abitrate" name="abitrate" value="${abitrate}" class="validate[required] required input_field" />
+                            <div class="cleaner h10"></div>         
+                            <label for="vreso"><s:property value="%{getText('configure.vreso')}"/>:</label>  <input type="text" id="vreso" name="vreso" value="${vreso}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_ba"><s:property value="%{getText('configure.transcoder_ba')}"/>:</label>  <input type="text" id="transcoder_ba" name="transcoder_ba" value="${transcoder_ba}" class="validate[required] required input_field" />
-                            <div class="cleaner h10"></div>
-                            <label for="transcoder_scale_w"><s:property value="%{getText('configure.transcoder_scale_w')}"/>:</label>  <input type="text" id="transcoder_scale_w" name="transcoder_scale_w" value="${transcoder_scale_w}" class="validate[required,custom[integer]] required input_field" />
-                            <div class="cleaner h10"></div>
-                            <label for="transcoder_scale_h"><s:property value="%{getText('configure.transcoder_scale_h')}"/>:</label>  <input type="text" id="transcoder_scale_h" name="transcoder_scale_h" value="${transcoder_scale_h}" class="validate[required,custom[integer]] required input_field" />
-                            <div class="cleaner h10"></div>
-                            <label for="transcoder_watermarkuse"><s:property value="%{getText('configure.transcoder_watermarkuse')}"/>:</label>  
-	                            <select id="transcoder_watermarkuse" name="transcoder_watermarkuse" class="required input_field">
+                            <label for="watermarkuse"><s:property value="%{getText('configure.watermarkuse')}"/>:</label>  
+	                            <select id="watermarkuse" name="watermarkuse" class="required input_field">
 								  <option value ="true"><s:property value="%{getText('configure.true')}"/></option>
 								  <option value ="false"><s:property value="%{getText('configure.false')}"/></option>
 								</select>
 							<div class="cleaner h10"></div>
-                            <label for="transcoder_watermark_url"><s:property value="%{getText('configure.transcoder_watermark_url')}"/>:</label>  <input type="text" id="transcoder_watermark_url" name="transcoder_watermark_url" value="${transcoder_watermark_url}" class="validate[required] required input_field" />
+                            <label for="watermark_url"><s:property value="%{getText('configure.watermark_url')}"/>:</label>  <input type="text" id="watermark_url" name="watermark_url" value="${watermark_url}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_watermark_x"><s:property value="%{getText('configure.transcoder_watermark_x')}"/>:</label>  <input type="text" id="transcoder_watermark_x" name="transcoder_watermark_x" value="${transcoder_watermark_x}" class="validate[required,custom[integer]] required input_field" />
+                            <label for="watermark_cor"><s:property value="%{getText('configure.watermark_cor')}"/>:</label>  <input type="text" id="watermark_cor" name="watermark_cor" value="${transcoder_watermark_x}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="transcoder_watermark_y"><s:property value="%{getText('configure.transcoder_watermark_y')}"/>:</label>  <input type="text" id="transcoder_watermark_y" name="transcoder_watermark_y" value="${transcoder_watermark_y}" class="validate[required,custom[integer]] required input_field" />
-                            <div class="cleaner h10"></div>
-                            <label for="transcoder_keepaspectratio"><s:property value="%{getText('configure.transcoder_keepaspectratio')}"/>:</label>  
-	                            <select id="transcoder_keepaspectratio" name="transcoder_keepaspectratio" class="required input_field">
+                            <label for="keepaspectratio"><s:property value="%{getText('configure.keepaspectratio')}"/>:</label>  
+	                            <select id="keepaspectratio" name="keepaspectratio" class="required input_field">
 								  <option value ="true"><s:property value="%{getText('configure.true')}"/></option>
 								  <option value ="false"><s:property value="%{getText('configure.false')}"/></option>
 								</select>
-                            <div class="cleaner h10"></div>
-                            <label for="transcoder_outfmt"><s:property value="%{getText('configure.transcoder_outfmt')}"/>:</label>  <input type="text" id="transcoder_outfmt" name="transcoder_outfmt" value="${transcoder_outfmt}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
                             <label for="thumbnail_ss"><s:property value="%{getText('configure.thumbnail_ss')}"/>:</label>  <input type="text" id="thumbnail_ss" name="thumbnail_ss" value="${thumbnail_ss}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
                             <label for="folder_videoori"><s:property value="%{getText('configure.folder_videoori')}"/>:</label>  <input type="text" id="folder_videoori" name="folder_videoori" value="${folder_videoori}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="folder_video"><s:property value="%{getText('configure.folder_video')}"/>:</label>  <input type="text" id="folder_video" name="folder_video" value="${folder_video}" class="validate[required] required input_field" />
+                            <label for="folder_dashfiles"><s:property value="%{getText('configure.folder_dashfiles')}"/>:</label>  <input type="text" id="folder_dashfiles" name="folder_dashfiles" value="${folder_dashfiles}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
                             <label for="folder_thumbnail"><s:property value="%{getText('configure.folder_thumbnail')}"/>:</label>  <input type="text" id="folder_thumbnail" name="folder_thumbnail" value="${folder_thumbnail}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="dash_v_bitrate_settings"><s:property value="%{getText('configure.dash_v_bitrate_settings')}"/>:</label>  <input type="text" id="dash_v_bitrate_settings" name="dash_v_bitrate_settings" value="${dash_v_bitrate_settings}" class="validate[required] required input_field" />
+                           	<label for="folder_logs"><s:property value="%{getText('configure.folder_logs')}"/>:</label>  <input type="text" id="folder_logs" name="folder_logs" value="${folder_logs}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="dash_a_bitrate_settings"><s:property value="%{getText('configure.dash_a_bitrate_settings')}"/>:</label>  <input type="text" id="dash_a_bitrate_settings" name="dash_a_bitrate_settings" value="${dash_a_bitrate_settings}" class="validate[required] required input_field" />
+                            <label for="dash_segmentsize"><s:property value="%{getText('configure.dash_segmentsize')}"/>:</label>  <input type="text" id="dash_segmentsize" name="dash_segmentsize" value="${dash_segmentsize}" class="validate[required] required input_field" />
                             <div class="cleaner h10"></div>
-                            <label for="dash_segment_size"><s:property value="%{getText('configure.dash_segment_size')}"/>:</label>  <input type="text" id="dash_segment_size" name="dash_segment_size" value="${dash_segment_size}" class="validate[required] required input_field" />
+                            <label for="dash_mpdname"><s:property value="%{getText('configure.dash_mpdname')}"/>:</label>  <input type="text" id="dash_mpdname" name="dash_mpdname" value="${dash_mpdname}" class="validate[required] required input_field" />
+                            <div class="cleaner h10"></div>
+                            <label for="dash_tisi"><s:property value="%{getText('configure.dash_tisi')}"/>:</label>  
+	                            <select id="dash_tisi" name="dash_tisi" class="required input_field">
+								  <option value ="true"><s:property value="%{getText('configure.true')}"/></option>
+								  <option value ="false"><s:property value="%{getText('configure.false')}"/></option>
+								</select>
                             <div class="cleaner h10"></div>
                             <input type="submit" value="<s:property value="%{getText('global.submit')}"/>" id="submit" name="submit" class="submit_btn float_l" />
                             <input type="reset" value="<s:property value="%{getText('global.reset')}"/>" id="reset" name="reset" class="submit_btn float_r" />

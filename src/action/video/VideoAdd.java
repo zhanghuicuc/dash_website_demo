@@ -155,7 +155,7 @@ public class VideoAdd extends ActionSupport {
 				baseService.save(video);
 				
 				//上传视频文件
-				String realfileoriDir=ServletActionContext.getServletContext().getRealPath(folder_videoori_cfg.getVal()).replace('\\', '/');
+				String realfileoriDir=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')+folder_videoori_cfg.getVal();
 				//Check
 				File realfileoriDirFile =new File(realfileoriDir);
 				if(!realfileoriDirFile.exists()  && !realfileoriDirFile.isDirectory()){
@@ -174,7 +174,7 @@ public class VideoAdd extends ActionSupport {
 				//直播
 				Category category=(Category) baseService.ReadSingle("Category", "id", 2);
 				video.setCategory(category);
-				video.setUrl(url);
+				video.setMpdurl(url);
 				video.setIslive(1);
 				//等待截图
 				Videostate videostate=(Videostate) baseService.ReadSingle("Videostate", "order", order+1);

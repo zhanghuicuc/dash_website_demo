@@ -21,9 +21,14 @@ package util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.StringWriter;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -41,6 +46,8 @@ import bean.Videostate;
 
 import service.BaseService;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 /**
  * @author 雷霄骅,张晖
@@ -61,34 +68,109 @@ private ServletContext servletContext;
 		super();
 		this.servletContext = servletContext;
 	}
+	public void updatePlayList(Configure folder_dashfile_cfg) {
+		WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		BaseService baseService = (BaseService)ctx.getBean("BaseService"); 
+		String fileName = servletContext.getRealPath("/").replace('\\', '/')+folder_dashfile_cfg.getVal()+"/"+"dashdemo.exolist.json";
+		List<Video> vodvideo=baseService.ReadByProperty("Video","islive",0);
+		List<Video> livevideo=baseService.ReadByProperty("Video","islive",1);
+		JSONArray wholelist = new JSONArray();
+		JSONObject vodobject = new JSONObject();
+		JSONObject liveobject = new JSONObject();
+		if(vodvideo != null) {
+			vodobject.put("name", "vod samples");
+			JSONArray vodlist = new JSONArray();
+			for(Video video:vodvideo) {
+				JSONObject vodsample = new JSONObject();
+				vodsample.put("name", video.getName());
+				vodsample.put("uri", video.getMpdurl());
+				vodlist.add(vodsample);
+			}
+			vodobject.put("samples", vodlist);
+		}
+		if(livevideo != null) {
+			liveobject.put("name", "live samples");
+			JSONArray livelist = new JSONArray();
+			for(Video video:livevideo) {
+				JSONObject livesample = new JSONObject();
+				livesample.put("name", video.getName());
+				livesample.put("uri", video.getMpdurl());
+				livelist.add(livesample);
+			}
+			liveobject.put("samples", livelist);
+		}
+		wholelist.add(vodobject);
+		wholelist.add(liveobject);
+		StringWriter out = new StringWriter(); 
+		try {
+			wholelist.writeJSONString(out); 
+			String jsonText = out.toString();
+			BufferedWriter jsonout=new BufferedWriter(new FileWriter(fileName));
+			jsonout.write(jsonText);
+			jsonout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void copyReports(){
+		String srcFiles = "D:/xampp/htdocs/DASH/uploads/*.*";
+		srcFiles = srcFiles.replace('/', '\\');
+		String destdir = servletContext.getRealPath("/");
+		String copycommand="cmd ";
+		copycommand+="/c copy ";
+		copycommand+= srcFiles;
+		copycommand+=" ";
+		copycommand+=destdir;
+		try{
+			Process process=Runtime.getRuntime().exec(copycommand);
+			//------------------------
+			BufferedInputStream in = new BufferedInputStream(process.getInputStream()); 
+			BufferedInputStream err = new BufferedInputStream(process.getErrorStream()); 
+			BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
+			BufferedReader errBr = new BufferedReader(new InputStreamReader(err));
+			String lineStr;
+			while ((lineStr = inBr.readLine()) != null) { 
+				System.out.println(lineStr);
+			}
+			while ((lineStr = errBr.readLine()) != null) { 
+				System.out.println(lineStr);
+			}
+			//Check
+			process.destroy();
+			inBr.close();  
+			in.close();  
+			err.close();
+			errBr.close();
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void run() {
 		try {
-		int order=3;
+		do{
+			int order=3;
 		WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 		BaseService baseService = (BaseService)ctx.getBean("BaseService"); 
 		//Load Configure
-		Configure transcoder_vcodec_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_vcodec");
-		Configure transcoder_bv_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_bv");
-		Configure transcoder_framerate_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_framerate");
-		Configure transcoder_acodec_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_acodec");
-		Configure transcoder_ar_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_ar");
-		Configure transcoder_ba_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_ba");
-		Configure transcoder_scale_w_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_scale_w");
-		Configure transcoder_scale_h_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_scale_h");
-		Configure transcoder_watermarkuse_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_watermarkuse");
-		Configure transcoder_watermark_url_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_watermark_url");
-		Configure transcoder_watermark_x_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_watermark_x");
-		Configure transcoder_watermark_y_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_watermark_y");
-		Configure transcoder_keepaspectratio_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_keepaspectratio");
-		Configure transcoder_outfmt_cfg=(Configure) baseService.ReadSingle("Configure", "name", "transcoder_outfmt");
-		Configure folder_video_cfg=(Configure) baseService.ReadSingle("Configure", "name", "folder_video");//"video文件夹"
-		//DASH Support
-		Configure dash_v_bitrate_settings_cfg=(Configure) baseService.ReadSingle("Configure","name","dash_v_bitrate_settings");
-		Configure dash_a_bitrate_settings_cfg=(Configure) baseService.ReadSingle("Configure","name","dash_a_bitrate_settings");
-		Configure dash_segment_size_cfg=(Configure) baseService.ReadSingle("Configure","name","dash_segment_size");
+		Configure vcodec_cfg=(Configure) baseService.ReadSingle("Configure", "name", "vcodec");
+		Configure vbitrate_cfg=(Configure) baseService.ReadSingle("Configure", "name", "vbitrate");
+		Configure vfps_cfg=(Configure) baseService.ReadSingle("Configure", "name", "vfps");
+		Configure vreso_cfg=(Configure) baseService.ReadSingle("Configure", "name", "vreso");
+		Configure keepaspectratio_cfg=(Configure) baseService.ReadSingle("Configure", "name", "keepaspectratio");
+		Configure acodec_cfg=(Configure) baseService.ReadSingle("Configure", "name", "acodec");
+		Configure abitrate_cfg=(Configure) baseService.ReadSingle("Configure", "name", "abitrate");
+		Configure mpdname_cfg=(Configure) baseService.ReadSingle("Configure", "name", "dash_mpdname");
+		Configure segmentsize_cfg=(Configure) baseService.ReadSingle("Configure","name","dash_segmentsize");
+		Configure tisi_cfg=(Configure) baseService.ReadSingle("Configure","name","dash_tisi");
+		Configure watermarkuse_cfg=(Configure) baseService.ReadSingle("Configure", "name", "watermarkuse");
+		Configure watermark_url_cfg=(Configure) baseService.ReadSingle("Configure", "name", "watermark_url");
+		Configure watermark_cor_cfg=(Configure) baseService.ReadSingle("Configure", "name", "watermark_cor");
+		Configure folder_dashfile_cfg=(Configure) baseService.ReadSingle("Configure", "name", "folder_dashfiles");
+		Configure folder_logs_cfg=(Configure) baseService.ReadSingle("Configure", "name", "folder_logs");
 		
 		//Folder of Watermark
-		String[] watermarkstrlist=transcoder_watermark_url_cfg.getVal().split("/");
+		String[] watermarkstrlist=watermark_url_cfg.getVal().split("/");
 		String watermarkDir="";
 		String watermarkFile=watermarkstrlist[watermarkstrlist.length-1];
 		for(int i=0;i<watermarkstrlist.length-1;i++){
@@ -104,40 +186,43 @@ private ServletContext servletContext;
 		}
 		
 		
-		//../webinf/video,真实文件夹地址
-		String realfileDir=servletContext.getRealPath("/").replace('\\', '/')+folder_video_cfg.getVal();
+		//../webinf/dashfile,真实文件夹地址
+		String realdashfileDir=servletContext.getRealPath("/").replace('\\', '/')+folder_dashfile_cfg.getVal();
 		//Check
-		File realfileDirFile =new File(realfileDir);
-		if(!realfileDirFile.exists()  && !realfileDirFile.isDirectory()){
+		File realdashfileDirFile =new File(realdashfileDir);
+		if(!realdashfileDirFile.exists()  && !realdashfileDirFile.isDirectory()){
 			System.out.println("Directory not exist. Create it."); 
-			System.out.println(realfileDirFile);  
-			realfileDirFile.mkdir();
+			System.out.println(realdashfileDirFile);  
+			realdashfileDirFile.mkdir();
+		}
+				
+		//../webinf/logfile,真实文件夹地址
+		String reallogfileDir=servletContext.getRealPath("/").replace('\\', '/')+folder_logs_cfg.getVal();
+		//Check
+		File reallogDirFile =new File(reallogfileDir);
+		if(!reallogDirFile.exists()  && !reallogDirFile.isDirectory()){
+			System.out.println("Directory not exist. Create it."); 
+			System.out.println(reallogDirFile);  
+			reallogDirFile.mkdir();
 		}
 		
-		do{
-
-			
+					
 			List<Video> resultvideo=baseService.ReadByProperty("Video","videostate.order", order);
 			Videostate nextvideostate=(Videostate) baseService.ReadSingle("Videostate","order", order+1);
 				if(resultvideo!=null){
 					for(Video video:resultvideo){
+						String realmpdfile=servletContext.getRealPath("/").replace('\\', '/')+folder_dashfile_cfg.getVal()+"/"+video.getName()+"/"+mpdname_cfg.getVal()+".mpd";
+						
 						//Transcode
-						//video/test.flv（以id作为文件名）
-						String filePath=folder_video_cfg.getVal()+"/"+video.getId()+"."+transcoder_outfmt_cfg.getVal();
-						//System.out.println(filePath);
-						video.setUrl(filePath);
-						//../webinf/video/test.flv
-						String realfilePath=servletContext.getRealPath("/").replace('\\', '/')+video.getUrl();
 						//../webinf/videoir/test.mp4
 						String realfileoriginalPath=servletContext.getRealPath("/").replace('\\', '/')+video.getOriurl();
-						//DASH Support
-						//在video文件夹根据视频名称建立子文件夹，将切片和mpd存于其中
-						//video/1/
-						String dest_dir=folder_video_cfg.getVal()+"/"+video.getId()+"/";
-						String real_dest_dir=servletContext.getRealPath("/").replace('\\', '/')+dest_dir;						
-						//1.mpd
-						String mpdPath=video.getId()+".mpd";						
+						//在video文件夹根据视频名称建立子文件夹，将dashfile存于其中
+						//video/test/
+						String real_dashfile_path=realdashfileDir+"/"+video.getName();											
+						String real_logfile_path=reallogfileDir+"/"+video.getName()+".txt";
 						
+						double segmentsizeinSec=Double.parseDouble(segmentsize_cfg.getVal())/1000.0;
+						int real_segmentsize=(int)(segmentsizeinSec*Double.parseDouble(vfps_cfg.getVal()));
 						//转码命令如下所示
 						//ffmpeg -i xxx.mkv -ar 22050 -b 600k -vcodec libx264 
 						//-vf scale=w=640:h=360:force_original_aspect_ratio=decrease,pad=w=640:h=360:x=(ow-iw)/2:y=(oh-ih)/2[aa];
@@ -153,27 +238,31 @@ private ServletContext servletContext;
 						//cmd /k xxx 是执行完xxx命令后不关闭命令窗口。
 						//cmd /c start xxx 会打开一个新窗口后执行xxx指令，原窗口会关闭。
 						String videotranscodecommand="cmd ";
-						videotranscodecommand+="/c start ";
+						videotranscodecommand+="/c ";
 						
 						//DASH Support
-						videotranscodecommand+="DASHEncoder -V H264 -A AAC -R mp4box -p high -P ultrafast -k 1 -C libx264 -c libvo_aacenc ";
-						videotranscodecommand+="-d ";
-						videotranscodecommand+="\""+real_dest_dir+"\" ";
-						videotranscodecommand+="-i ";
-						videotranscodecommand+="\""+realfileoriginalPath+"\" ";
-						videotranscodecommand+="-b ";
-						videotranscodecommand+="\""+dash_v_bitrate_settings_cfg.getVal()+"\" ";
-						videotranscodecommand+="-g "+transcoder_framerate_cfg.getVal()+" ";
-						videotranscodecommand+="-a ";
-						videotranscodecommand+="\""+dash_a_bitrate_settings_cfg.getVal()+"\" ";
-						videotranscodecommand+="-I ";
-						videotranscodecommand+="\""+realfileoriginalPath+"\" ";
-						videotranscodecommand+="-m "+mpdPath+" ";
-						videotranscodecommand+="-f "+dash_segment_size_cfg.getVal()+" ";
-						videotranscodecommand+="-S "+dash_segment_size_cfg.getVal()+" ";
-						videotranscodecommand+="-B "+dash_segment_size_cfg.getVal()+" ";
-						//W,H,u暂时没用，但是保留在命令行里面
-						videotranscodecommand+="-r 1 -D 1 -u 0 ";
+						videotranscodecommand+="dashencode.bat -v -d -f";
+						videotranscodecommand+=" --encfiles-output-dir="+real_dashfile_path;
+						videotranscodecommand+=" -b "+vbitrate_cfg.getVal();
+						videotranscodecommand+=" -a "+abitrate_cfg.getVal();
+						videotranscodecommand+=" -r "+vreso_cfg.getVal();
+						videotranscodecommand+=" -o "+real_dashfile_path;
+						videotranscodecommand+=" -s "+real_segmentsize;
+						videotranscodecommand+=" --mpd-name="+mpdname_cfg.getVal()+".mpd";
+						videotranscodecommand+=" --use-segment-list";
+						if(watermarkuse_cfg.getVal().equals("true")){
+							videotranscodecommand+=" -e movie=";
+							videotranscodecommand+=watermarkFile;
+							videotranscodecommand+="[bb];";
+							videotranscodecommand+="[aa][bb]";
+							videotranscodecommand+="overlay="+watermark_cor_cfg.getVal();
+						}else{
+							videotranscodecommand+=" ";
+						}
+						videotranscodecommand+=" "+realfileoriginalPath;
+						videotranscodecommand+=" >"+real_logfile_path+" 2>&1";
+						
+						
 						//videotranscodecommand+="/c ";
 						/*videotranscodecommand+="ffmpeg -y ";
 						videotranscodecommand+="-i ";
@@ -206,7 +295,7 @@ private ServletContext servletContext;
 						
 						
 						System.out.println(videotranscodecommand);
-						Process process=Runtime.getRuntime().exec(videotranscodecommand);//,null,realwatermarkDirFile);
+						Process process=Runtime.getRuntime().exec(videotranscodecommand);
 						//------------------------
 						BufferedInputStream in = new BufferedInputStream(process.getInputStream()); 
 						BufferedInputStream err = new BufferedInputStream(process.getErrorStream()); 
@@ -219,24 +308,30 @@ private ServletContext servletContext;
 						while ((lineStr = errBr.readLine()) != null) { 
 							System.out.println(lineStr);
 						}
-						
-						if (process.waitFor() != 0) {  
-							if (process.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束  
-								System.err.println("Failed!");  
-						}  
+						//Check
+						File realmpdfileFile =new File(realmpdfile);
+						if(!realmpdfileFile.exists()){
+							System.err.println("Failed!"); 
+						}else{
+							process.destroy();
+						}
 						inBr.close();  
 						in.close();  
 						err.close();
 						errBr.close();
 						//video/1/1.mpd
-						video.setMpdurl(dest_dir+video.getId()+".mpd");
-
+						video.setMpdurl(folder_dashfile_cfg.getVal()+"/"+video.getName()+"/"+mpdname_cfg.getVal()+".mpd");
+						video.setLogurl(folder_logs_cfg.getVal()+"/"+video.getName()+".txt");
+						video.setDashfileurl(folder_dashfile_cfg.getVal()+"/"+video.getName());
 						video.setVideostate(nextvideostate);
 						baseService.update(video);
+						
 						//Rest--------------------------
 						sleep(10 * 1000);
 					}
 				}
+				updatePlayList(folder_dashfile_cfg);				
+				copyReports();
 			sleep(10 * 1000);
 		}while(true);
 		} catch (Exception e) {

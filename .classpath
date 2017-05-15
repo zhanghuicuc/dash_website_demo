@@ -38,5 +38,8 @@
 			<attribute name="owner.project.facets" value="me.spring"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/Eclipse_Workspace/simplest_video_website/WebRoot/WEB-INF/lib/xwork-core-2.2.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

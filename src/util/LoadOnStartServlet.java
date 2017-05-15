@@ -109,7 +109,6 @@ public class LoadOnStartServlet extends HttpServlet {
 		ServletContext sc = this.getServletContext();  
 		
 		//GetFFmpegInfo();
-		//初始化的时候运行以下几个线程，为什么这里一开始就start了线程
 		//截图
 		VideoThumbnailThread videoThumbnailThread=new VideoThumbnailThread(sc);
 		videoThumbnailThread.start();

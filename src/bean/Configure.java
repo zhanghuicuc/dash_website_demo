@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * Configure entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "configure", catalog = "svw")
+@Table(name = "configure", catalog = "dashdemo")
 public class Configure implements java.io.Serializable {
 
 	// Fields

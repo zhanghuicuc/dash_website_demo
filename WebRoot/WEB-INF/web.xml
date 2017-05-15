@@ -18,6 +18,10 @@
   	<filter-name>struts2</filter-name>
   	<url-pattern>*.action</url-pattern>
   </filter-mapping>
+  <filter-mapping>  
+    <filter-name>struts2</filter-name>  
+    <url-pattern>*.jsp</url-pattern>  
+</filter-mapping>  
   
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -32,4 +36,5 @@
     <servlet-class>util.LoadOnStartServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+ 
 </web-app>

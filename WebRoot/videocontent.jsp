@@ -17,20 +17,28 @@
 <script type="text/javascript" src="js/jquery-ui.min.js"></script> 
 <script type="text/javascript" src="js/showhide.js"></script>  
 <script type="text/JavaScript" src="js/jquery.mousewheel.js"></script> 
-
- <!-- Flow Player -->
-        <script type="text/javascript" src="videoplayer/flowplayer-3.2.8.min.js"></script>
-<!-- DASH JS -->
-		<script type="text/javascript" src="videoplayer/dash.all.js"></script>
-		<style>
+<script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.debug.js"></script>
+<style>
         video {
             width: 640px;
             height: 360px;
         }
-    </style>
+</style>
+<script>
+        var player;
+        function init()
+        {
+            player = dashjs.MediaPlayerFactory.create(document.querySelector(".dashjs-player"));
+            setInterval(updateStats,500)
+        }
+        function updateStats()
+        {
+            document.querySelector("#stats").innerHTML = "Buffer level " + player.getBufferLength() + "s";
+        }
+</script>
 </head>
 
-<body id="subpage" onload="Dash.createAll()">
+<body id="subpage" onload="init()">
 
 <div id="svw_header_wrapper">
 	<%@ include file="/cheader.jsp"%>
@@ -46,51 +54,14 @@
 	    	</c:choose>
 	    	${video.name}
 	    	</h2>
-            <div id="player_window">
-	            <c:choose>
-			    	<c:when test="${video.islive==1}">
-			    	<a id="player"> 
-					</a>
-			    	<!-- Parse RTMP URL -->
-			    	<script>
-					str='${video.url}';
-					arr=str.split('/');
-					//rtmp://server/app/playpath
-					protocol=arr[0];
-					server=arr[2];
-					app=arr[3];
-					playpath=arr[4];
-			            flowplayer("player", "videoplayer/flowplayer-3.2.8.swf",{  
-				            clip: {  
-				              //scaling:'orig',
-				              url: playpath, 
-				              provider: 'rtmp',
-				              live:'true'
-				            },   
-				            plugins: {   
-				               rtmp: {   
-				                 url: 'videoplayer/flowplayer.rtmp-3.2.8.swf',   
-				                 netConnectionUrl: protocol+'//'+server+'/'+ app
-				               }  
-				           }  
-				        }); 
-				        
-			        </script>
-						
-					</c:when>
-		    	<c:otherwise>
-					<!-- <a id="player" href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/${video.url}">
-					</a>
-					<script>
-					   flowplayer("player", "videoplayer/flowplayer-3.2.8.swf"); 
-					</script>-->
+            <div id="player_window">	            
 					<video class="dashjs-player" autoplay preload="none" controls="true">
                 		<source src="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/${video.mpdurl}" type="application/dash+xml"/>
             		</video>
-				</c:otherwise>
-		    	</c:choose>
 			</div>
-			
+			<div>
+            	<span id="stats"/>
+        	</div>
             <div class="meta">
                 <span class="content"><a href="VideoReadByID.action?videoid=${video.id}"><s:property value="%{getText('video.content')}"/></a></span>
                 <span class="edit"><a href="VideoUpdateRead.action?videoid=${video.id}"><s:property value="%{getText('video.edit')}"/></a></span>
@@ -114,7 +85,7 @@
         </div>
         <div class="cleaner h20"></div>
         <!-- Default: Do not use MediaInfo  -->
-        <!-- 
+        
         <c:if test="0">
             <h3><s:property value="%{getText('video.mediainfo')}"/></h3>
               	<div id="comment_section">
@@ -146,7 +117,7 @@
                 
                 <div class="cleaner h20"></div>
          </c:if>
-          -->
+          
     </div>
     
     <div id="sidebar">

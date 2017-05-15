@@ -17,6 +17,7 @@
 <script type="text/javascript" src="js/jquery-ui.min.js"></script> 
 <script type="text/javascript" src="js/showhide.js"></script> 
 <script type="text/JavaScript" src="js/jquery.mousewheel.js"></script> 
+<script type="text/javascript" src="js/jscharts.js"></script>
 
 <!-- Load the CloudCarousel JavaScript file -->
 <script type="text/JavaScript" src="js/cloud-carousel.1.0.5.js"></script>
@@ -92,6 +93,16 @@ $(document).ready(function(){
 	</div>
     </c:forEach>
     <div class="cleaner"></div>
+    
+    <div id="format_result">
+    <h2>bitrate and bandwidth</h2><div id="graph">Loading graph...</div>
+	<script type="text/javascript">
+		var myChart = new JSChart('graph', 'line');
+		myChart.setDataXML("http://222.31.64.25/DASH/uploads/report_format.xml");
+		myChart.draw();
+	</script>
+    </div>
+    
 </div> <!-- END of svw_main -->
 <div id="svw_footer_wrapper">
 <%@ include file="/cfooter.jsp"%>

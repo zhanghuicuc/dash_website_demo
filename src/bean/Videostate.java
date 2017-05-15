@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * Videostate entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "videostate", catalog = "svw")
+@Table(name = "videostate", catalog = "dashdemo")
 public class Videostate implements java.io.Serializable {
 
 	// Fields

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * Video entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "video", catalog = "svw")
+@Table(name = "video", catalog = "dashdemo")
 public class Video implements java.io.Serializable {
 
 	// Fields
@@ -27,14 +27,12 @@ public class Video implements java.io.Serializable {
 	private String intro;
 	private Timestamp edittime;
 	private Integer islive;
-	private String url;
+	private String mpdurl;
+	private String dashfileurl;
 	private String oriurl;
 	private String thumbnailurl;
-	//DASH Support
-	private String mpdurl;
+	private String logurl;
 	private String remark;
-
-	// Constructors
 
 	/** default constructor */
 	public Video() {
@@ -42,18 +40,19 @@ public class Video implements java.io.Serializable {
 
 	/** full constructor */
 	public Video(Videostate videostate, Category category, String name,
-			String intro, Timestamp edittime, Integer islive, String url,
-			String oriurl, String thumbnailurl, String mpdurl, String remark) {
+			String intro, Timestamp edittime, Integer islive, String mpdurl, String dashfileurl,
+			String oriurl, String thumbnailurl, String logurl, String remark) {
 		this.videostate = videostate;
 		this.category = category;
 		this.name = name;
 		this.intro = intro;
 		this.edittime = edittime;
 		this.islive = islive;
-		this.url = url;
+		this.mpdurl = mpdurl;
+		this.dashfileurl = dashfileurl;
 		this.oriurl = oriurl;
 		this.thumbnailurl = thumbnailurl;
-		this.mpdurl = mpdurl;
+		this.logurl = logurl;
 		this.remark = remark;
 	}
 
@@ -125,13 +124,22 @@ public class Video implements java.io.Serializable {
 		this.islive = islive;
 	}
 
-	@Column(name = "url")
-	public String getUrl() {
-		return this.url;
+	@Column(name = "mpdurl")
+	public String getMpdurl() {
+		return this.mpdurl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setMpdurl(String mpdurl) {
+		this.mpdurl = mpdurl;
+	}
+	
+	@Column(name = "dashfileurl")
+	public String getDashfileurl() {
+		return this.dashfileurl;
+	}
+
+	public void setDashfileurl(String dashfileurl) {
+		this.dashfileurl = dashfileurl;
 	}
 
 	@Column(name = "oriurl")
@@ -152,16 +160,15 @@ public class Video implements java.io.Serializable {
 		this.thumbnailurl = thumbnailurl;
 	}
 	
-	//DASH Support
-	@Column(name = "mpdurl")
-	public String getMpdurl() {
-		return this.mpdurl;
+	@Column(name = "logurl")
+	public String getLogurl() {
+		return this.logurl;
 	}
 
-	public void setMpdurl(String mpdurl) {
-		this.mpdurl = mpdurl;
+	public void setLogurl(String logurl) {
+		this.logurl = logurl;
 	}
-
+	
 	@Column(name = "remark")
 	public String getRemark() {
 		return this.remark;

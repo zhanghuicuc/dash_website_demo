@@ -58,47 +58,61 @@ public class VideoDelete extends ActionSupport {
 			Video video=(Video) baseService.ReadByID("Video", videoid);
 			//相对路径
 			String thumbnailPath=video.getThumbnailurl();
-			String path=video.getUrl();
+			String dashfilepath=video.getDashfileurl();
 			String oripath=video.getOriurl();
+			String logpath=video.getLogurl();
 			//获取根路径（绝对路径）
 			String thumbnailrealpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
 					+thumbnailPath;
-			String realpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
-					+path;
+			String dashfilerealpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
+					+dashfilepath;
 			String orirealpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
 					+oripath;
-			//DASH Support 
-			String segmentrealpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
-					+video.getMpdurl().substring(0, video.getMpdurl().lastIndexOf("/"));
+			String logrealpath=ServletActionContext.getServletContext().getRealPath("/").replace('\\', '/')
+					+logpath;
 			File thumbnailfile=new File(thumbnailrealpath);
-			File videofile=new File(realpath);
+			File dashfile=new File(dashfilerealpath);
 			File orivideofile=new File(orirealpath);
+			File logfile=new File(logrealpath);
 			//删除与之相关的截图文件和视频文件
 			if(thumbnailfile!=null){
 				thumbnailfile.delete();
 			}
-			if(videofile!=null){
-				videofile.delete();
+			if(dashfile!=null){
+				String dashfiledelcommand="cmd /c rmdir /s/q "+"\""+dashfilerealpath+"\" ";
+				System.out.println(dashfiledelcommand);
+				Process process=Runtime.getRuntime().exec(dashfiledelcommand);
+				BufferedInputStream in = new BufferedInputStream(process.getInputStream());  
+				BufferedReader inBr = new BufferedReader(new InputStreamReader(in));  
+				String lineStr;  
+				while ((lineStr = inBr.readLine()) != null)  
+						System.out.println(lineStr);
+				if (process.waitFor() != 0) {  
+					if (process.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束  
+						System.err.println("Delete dash files Failed!");  
+				} 
+				inBr.close();  
+				in.close();
 			}
 			if(orivideofile!=null){
 				orivideofile.delete();
 			}
-			//DASH Support
-			String segmentdelcommand="cmd /c rmdir /s/q "+"\""+segmentrealpath+"\" ";
-			System.out.println(segmentdelcommand);
-			Process process=Runtime.getRuntime().exec(segmentdelcommand);
-			//------------------------
-			BufferedInputStream in = new BufferedInputStream(process.getInputStream());  
-			BufferedReader inBr = new BufferedReader(new InputStreamReader(in));  
-			String lineStr;  
-			while ((lineStr = inBr.readLine()) != null)  
-					System.out.println(lineStr);
-			if (process.waitFor() != 0) {  
-				if (process.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束  
-					System.err.println("Failed!");  
-			}  
-			inBr.close();  
-			in.close();
+			if(logfile!=null){
+				String logfiledelcommand="cmd /c rmdir /s/q "+"\""+logrealpath+"\" ";
+				System.out.println(logfiledelcommand);
+				Process process=Runtime.getRuntime().exec(logfiledelcommand);
+				BufferedInputStream in = new BufferedInputStream(process.getInputStream());  
+				BufferedReader inBr = new BufferedReader(new InputStreamReader(in));  
+				String lineStr;  
+				while ((lineStr = inBr.readLine()) != null)  
+						System.out.println(lineStr);
+				if (process.waitFor() != 0) {  
+					if (process.exitValue() == 1)//p.exitValue()==0表示正常结束，1：非正常结束  
+						System.err.println("Delete log files Failed!");  
+				} 
+				inBr.close();  
+				in.close();
+			}
 			//最后才删除该记录
 			baseService.delete(video);
 			return SUCCESS;

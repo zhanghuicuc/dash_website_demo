@@ -78,7 +78,7 @@ $(document).ready(function(){
 							<input type="hidden" name="islive" value="${islive}" />
     						<c:choose>
 			    			<c:when test="${islive==1}">
-			    				<label for="url"><s:property value="%{getText('video.url')}"/>:</label> <input id="url" name="url" value="${video.url}" class="validate[required] required input_field" />
+			    				<label for="url"><s:property value="%{getText('video.mpdurl')}"/>:</label> <input id="url" name="url" value="${video.mpdurl}" class="validate[required] required input_field" />
                            		<div class="cleaner h10"></div>
 			    			</c:when>
 			    			<c:otherwise>

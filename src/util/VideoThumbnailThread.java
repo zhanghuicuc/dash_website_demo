@@ -89,14 +89,15 @@ public class VideoThumbnailThread extends Thread {
 							realfileoriPath=servletContext.getRealPath("/").replace('\\', '/')+video.getOriurl();
 							//System.out.println(realfileoriPath);
 						}else{
-							realfileoriPath=video.getUrl();
+							/*realfileoriPath=video.getUrl();
 							String a[] = realfileoriPath.split(":");  
 							//RTMP FIX: libRTMP URL
 						    if(a[0].equals("rtmp")||a[0].equals("rtmpe")||a[0].equals("rtmpte")||a[0].equals("rtmps")){
 						    	realfileoriPath=realfileoriPath+" live=1";
-						    }
+						    }*/
+							continue;
 						}
-						String realthumbnailPath=realthumbnailDir+"/"+video.getId()+".jpg";
+						String realthumbnailPath=realthumbnailDir+"/"+video.getName()+".jpg";
 						
 						String videothumbnailcommand="cmd /c start ffmpeg -y -i "+"\""+realfileoriPath+"\""+
 						" -ss "+thumbnail_ss_cfg.getVal()+" -s 220x110 -f image2 -vframes 1 "+"\""+realthumbnailPath+"\"";
@@ -115,7 +116,7 @@ public class VideoThumbnailThread extends Thread {
 						inBr.close();  
 						in.close();  
 						
-						video.setThumbnailurl(folder_thumbnail_cfg.getVal()+"/"+video.getId()+".jpg");
+						video.setThumbnailurl(folder_thumbnail_cfg.getVal()+"/"+video.getName()+".jpg");
 						
 						if(video.getIslive()==0){
 							video.setVideostate(nextvideostate);

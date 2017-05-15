@@ -1,2 +1,2 @@
 ::Pack the software
-jar cvf dash_website_demo.war -C WebRoot .
+jar cvf simplest_video_website.war -C WebRoot .

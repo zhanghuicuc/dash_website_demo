@@ -32,12 +32,12 @@ ddsmoothmenu.init({
              -->
             <li><a href="About.action"><s:property value="%{getText('about.about')}"/></a></li>
             <li><a href="ConfigureUpdateRead.action"><s:property value="%{getText('configure.configure')}"/></a></li>
-            <li><a href="#"><s:property value="%{getText('configure.language')}"/></a>
+            <!--  <li><a href="#"><s:property value="%{getText('configure.language')}"/></a>
             	<ul>
                     <li><a href="Index.action?request_locale=en_US">English</a></li>
                     <li><a href="Index.action?request_locale=zh_CN">简体中文</a></li>
               	</ul>
-            </li>
+            </li>-->
         </ul>
         <br style="clear: left" />
     </div>

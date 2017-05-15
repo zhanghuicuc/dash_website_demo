@@ -18,135 +18,40 @@
  */
 package action.configure;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import service.BaseService;
 
 import bean.Configure;
-import bean.Video;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ConfigureUpdate extends ActionSupport {
-	private String transcoder_vcodec;
-	private String transcoder_bv;
-	private String transcoder_framerate;
-	private String transcoder_acodec;
-	private String transcoder_ar;
-	private String transcoder_ba;
-	private String transcoder_scale_w;
-	private String transcoder_scale_h;
-	private String transcoder_watermarkuse;
-	private String transcoder_watermark_url;
-	private String transcoder_watermark_x;
-	private String transcoder_watermark_y;
-	private String transcoder_keepaspectratio;
-	private String transcoder_outfmt;
+	//DASH Transcode Options
+	private String vcodec;
+	private String vbitrate;
+	private String vfps;
+	private String vreso;
+	private String keepaspectratio;
+	private String acodec;
+	private String abitrate;
+	private String dash_mpdname;
+	private String dash_segmentsize;
+	private String dash_tisi;
+	private String watermarkuse;
+	private String watermark_url;
+	private String watermark_cor;
 	private String thumbnail_ss;
 	private String folder_videoori;
-	private String folder_video;
+	private String folder_dashfiles;
+	private String folder_logs;
 	private String folder_thumbnail;
-	//DASH Support
-	private String dash_v_bitrate_settings;
-	private String dash_a_bitrate_settings;
-	private String dash_segment_size;
+
 	
 	
 	private List<Configure> configurelist;
 	private BaseService baseService;
 	
-	public String getTranscoder_vcodec() {
-		return transcoder_vcodec;
-	}
-	public void setTranscoder_vcodec(String transcoder_vcodec) {
-		this.transcoder_vcodec = transcoder_vcodec;
-	}
-	public String getTranscoder_bv() {
-		return transcoder_bv;
-	}
-	public void setTranscoder_bv(String transcoder_bv) {
-		this.transcoder_bv = transcoder_bv;
-	}
-	public String getTranscoder_framerate() {
-		return transcoder_framerate;
-	}
-	public void setTranscoder_framerate(String transcoder_framerate) {
-		this.transcoder_framerate = transcoder_framerate;
-	}
-	public String getTranscoder_acodec() {
-		return transcoder_acodec;
-	}
-	public void setTranscoder_acodec(String transcoder_acodec) {
-		this.transcoder_acodec = transcoder_acodec;
-	}
-	public String getTranscoder_ar() {
-		return transcoder_ar;
-	}
-	public void setTranscoder_ar(String transcoder_ar) {
-		this.transcoder_ar = transcoder_ar;
-	}
-	public String getTranscoder_ba() {
-		return transcoder_ba;
-	}
-	public void setTranscoder_ba(String transcoder_ba) {
-		this.transcoder_ba = transcoder_ba;
-	}
-	public String getTranscoder_scale_w() {
-		return transcoder_scale_w;
-	}
-	public void setTranscoder_scale_w(String transcoder_scale_w) {
-		this.transcoder_scale_w = transcoder_scale_w;
-	}
-	public String getTranscoder_scale_h() {
-		return transcoder_scale_h;
-	}
-	public void setTranscoder_scale_h(String transcoder_scale_h) {
-		this.transcoder_scale_h = transcoder_scale_h;
-	}
-	public String getTranscoder_watermarkuse() {
-		return transcoder_watermarkuse;
-	}
-	public void setTranscoder_watermarkuse(String transcoder_watermarkuse) {
-		this.transcoder_watermarkuse = transcoder_watermarkuse;
-	}
-	public String getTranscoder_watermark_url() {
-		return transcoder_watermark_url;
-	}
-	public void setTranscoder_watermark_url(String transcoder_watermark_url) {
-		this.transcoder_watermark_url = transcoder_watermark_url;
-	}
-	public String getTranscoder_watermark_x() {
-		return transcoder_watermark_x;
-	}
-	public void setTranscoder_watermark_x(String transcoder_watermark_x) {
-		this.transcoder_watermark_x = transcoder_watermark_x;
-	}
-	public String getTranscoder_watermark_y() {
-		return transcoder_watermark_y;
-	}
-	public void setTranscoder_watermark_y(String transcoder_watermark_y) {
-		this.transcoder_watermark_y = transcoder_watermark_y;
-	}
-	public String getTranscoder_keepaspectratio() {
-		return transcoder_keepaspectratio;
-	}
-	public void setTranscoder_keepaspectratio(String transcoder_keepaspectratio) {
-		this.transcoder_keepaspectratio = transcoder_keepaspectratio;
-	}
-	public String getTranscoder_outfmt() {
-		return transcoder_outfmt;
-	}
-	public void setTranscoder_outfmt(String transcoder_outfmt) {
-		this.transcoder_outfmt = transcoder_outfmt;
-	}
-	public String getThumbnail_ss() {
-		return thumbnail_ss;
-	}
-	public void setThumbnail_ss(String thumbnail_ss) {
-		this.thumbnail_ss = thumbnail_ss;
-	}
 	public List<Configure> getConfigurelist() {
 		return configurelist;
 	}
@@ -159,18 +64,104 @@ public class ConfigureUpdate extends ActionSupport {
 	public void setBaseService(BaseService baseService) {
 		this.baseService = baseService;
 	}
+	
+	public String getVcodec() {
+		return vcodec;
+	}
+	public void setVcodec(String vcodec) {
+		this.vcodec = vcodec;
+	}
+	public String getVbitrate() {
+		return vbitrate;
+	}
+	public void setVbitrate(String vbitrate) {
+		this.vbitrate = vbitrate;
+	}
+	public String getVfps() {
+		return vfps;
+	}
+	public void setVfps(String vfps) {
+		this.vfps = vfps;
+	}
+	public String getVreso() {
+		return vreso;
+	}
+	public void setVreso(String vreso) {
+		this.vreso = vreso;
+	}
+	public String getKeepaspectratio() {
+		return keepaspectratio;
+	}
+	public void setKeepaspectratio(String keepaspectratio) {
+		this.keepaspectratio = keepaspectratio;
+	}
+	public String getAcodec() {
+		return acodec;
+	}
+	public void setAcodec(String acodec) {
+		this.acodec = acodec;
+	}
+	public String getAbitrate() {
+		return abitrate;
+	}
+	public void setAbitrate(String abitrate) {
+		this.abitrate = abitrate;
+	}
+	public String getDash_mpdname() {
+		return dash_mpdname;
+	}
+	public void setDash_mpdname(String dash_mpdname) {
+		this.dash_mpdname = dash_mpdname;
+	}
+	public String getDash_segmentsize() {
+		return dash_segmentsize;
+	}
+	public void setDash_segmentsize(String dash_segmentsize) {
+		this.dash_segmentsize = dash_segmentsize;
+	}
+	public String getDash_tisi() {
+		return dash_tisi;
+	}
+	public void setDash_tisi(String dash_tisi) {
+		this.dash_tisi = dash_tisi;
+	}
+	public String getWatermarkuse() {
+		return watermarkuse;
+	}
+	public void setWatermarkuse(String watermarkuse) {
+		this.watermarkuse = watermarkuse;
+	}
+	public String getWatermark_url() {
+		return watermark_url;
+	}
+	public void setWatermark_url(String watermark_url) {
+		this.watermark_url = watermark_url;
+	}
+	public String getWatermark_cor() {
+		return watermark_cor;
+	}
+	public void setWatermark_cor(String watermark_cor) {
+		this.watermark_cor = watermark_cor;
+	}
+	public String getFolder_logs() {
+		return folder_logs;
+	}
+	public void setFolder_logs(String folder_logs) {
+		this.folder_logs = folder_logs;
+	}
+	public String getThumbnail_ss() {
+		return thumbnail_ss;
+	}
+	public void setThumbnail_ss(String thumbnail_ss) {
+		this.thumbnail_ss = thumbnail_ss;
+	}
 	public String getFolder_videoori() {
 		return folder_videoori;
 	}
 	public void setFolder_videoori(String folder_videoori) {
 		this.folder_videoori = folder_videoori;
 	}
-	public String getFolder_video() {
-		return folder_video;
-	}
-	public void setFolder_video(String folder_video) {
-		this.folder_video = folder_video;
-	}
+
 	public String getFolder_thumbnail() {
 		return folder_thumbnail;
 	}
@@ -178,75 +169,53 @@ public class ConfigureUpdate extends ActionSupport {
 		this.folder_thumbnail = folder_thumbnail;
 	}
 	//DASH Support
-	public String getDash_v_bitrate_settings() {
-		return dash_v_bitrate_settings;
+	public String getFolder_dashfiles() {
+		return folder_dashfiles;
 	}
-	public void setDash_v_bitrate_settings(String dash_v_bitrate_settings) {
-		this.dash_v_bitrate_settings = dash_v_bitrate_settings;
-	}
-	public String getDash_a_bitrate_settings() {
-		return dash_a_bitrate_settings;
-	}
-	public void setDash_a_bitrate_settings(String dash_a_bitrate_settings) {
-		this.dash_a_bitrate_settings = dash_a_bitrate_settings;
-	}
-	public String getDash_segment_size() {
-		return dash_segment_size;
-	}
-	public void setDash_segment_size(String dash_segment_size) {
-		this.dash_segment_size = dash_segment_size;
+	public void setFolder_dashfiles(String folder_dashfiles) {
+		this.folder_dashfiles = folder_dashfiles;
 	}
 	
 	public String Read(){
 		try{
 			configurelist=baseService.ReadAll("Configure");
 			for(Configure configure:configurelist){ 
-				if(configure.getName().equals("transcoder_vcodec")){
-					transcoder_vcodec=configure.getVal();
-				}else if(configure.getName().equals("transcoder_bv")){
-					transcoder_bv=configure.getVal();
-				}else if(configure.getName().equals("transcoder_framerate")){
-					transcoder_framerate=configure.getVal();
-				}else if(configure.getName().equals("transcoder_acodec")){
-					transcoder_acodec=configure.getVal();
-				}else if(configure.getName().equals("transcoder_ar")){
-					transcoder_ar=configure.getVal();
-				}else if(configure.getName().equals("transcoder_ba")){
-					transcoder_ba=configure.getVal();
-				}else if(configure.getName().equals("transcoder_scale_w")){
-					transcoder_scale_w=configure.getVal();
-				}else if(configure.getName().equals("transcoder_scale_h")){
-					transcoder_scale_h=configure.getVal();
-				}else if(configure.getName().equals("transcoder_watermarkuse")){
-					transcoder_watermarkuse=configure.getVal();
-				}else if(configure.getName().equals("transcoder_watermark_url")){
-					transcoder_watermark_url=configure.getVal();
-				}else if(configure.getName().equals("transcoder_watermark_x")){
-					transcoder_watermark_x=configure.getVal();
-				}else if(configure.getName().equals("transcoder_watermark_y")){
-					transcoder_watermark_y=configure.getVal();
-				}else if(configure.getName().equals("transcoder_keepaspectratio")){
-					transcoder_keepaspectratio=configure.getVal();
-				}else if(configure.getName().equals("transcoder_outfmt")){
-					transcoder_outfmt=configure.getVal();
+				if(configure.getName().equals("vcodec")){
+					vcodec=configure.getVal();
+				}else if(configure.getName().equals("vbitrate")){
+					vbitrate=configure.getVal();
+				}else if(configure.getName().equals("vfps")){
+					vfps=configure.getVal();
+				}else if(configure.getName().equals("vreso")){
+					vreso=configure.getVal();
+				}else if(configure.getName().equals("keepaspectratio")){
+					keepaspectratio=configure.getVal();
+				}else if(configure.getName().equals("acodec")){
+					acodec=configure.getVal();
+				}else if(configure.getName().equals("abitrate")){
+					abitrate=configure.getVal();
+				}else if(configure.getName().equals("dash_mpdname")){
+					dash_mpdname=configure.getVal();
+				}else if(configure.getName().equals("dash_segmentsize")){
+					dash_segmentsize=configure.getVal();
+				}else if(configure.getName().equals("dash_tisi")){
+					dash_tisi=configure.getVal();
+				}else if(configure.getName().equals("watermarkuse")){
+					watermarkuse=configure.getVal();
+				}else if(configure.getName().equals("watermark_url")){
+					watermark_url=configure.getVal();
+				}else if(configure.getName().equals("watermark_cor")){
+					watermark_cor=configure.getVal();
 				}else if(configure.getName().equals("thumbnail_ss")){
 					thumbnail_ss=configure.getVal();
 				}else if(configure.getName().equals("folder_videoori")){
 					folder_videoori=configure.getVal();
-				}else if(configure.getName().equals("folder_video")){
-					folder_video=configure.getVal();
+				}else if(configure.getName().equals("folder_dashfiles")){
+					folder_dashfiles=configure.getVal();
+				}else if(configure.getName().equals("folder_logs")){
+					folder_logs=configure.getVal();
 				}else if(configure.getName().equals("folder_thumbnail")){
 					folder_thumbnail=configure.getVal();
-				}
-				//DASH Support
-				else if(configure.getName().equals("dash_v_bitrate_settings")){
-					dash_v_bitrate_settings=configure.getVal();
-				}
-				else if(configure.getName().equals("dash_a_bitrate_settings")){
-					dash_a_bitrate_settings=configure.getVal();
-				}
-				else if(configure.getName().equals("dash_segment_size")){
-					dash_segment_size=configure.getVal();
 				}
 			} 
 			return SUCCESS;
@@ -259,34 +228,32 @@ public class ConfigureUpdate extends ActionSupport {
 	public String Update(){
 		try{
 			for(Configure configure:configurelist){ 
-				if(configure.getName().equals("transcoder_vcodec")){
-					configure.setVal(transcoder_vcodec);
-				}else if(configure.getName().equals("transcoder_bv")){
-					configure.setVal(transcoder_bv);
-				}else if(configure.getName().equals("transcoder_framerate")){
-					configure.setVal(transcoder_framerate);
-				}else if(configure.getName().equals("transcoder_acodec")){
-					configure.setVal(transcoder_acodec);
-				}else if(configure.getName().equals("transcoder_ar")){
-					configure.setVal(transcoder_ar);
-				}else if(configure.getName().equals("transcoder_ba")){
-					configure.setVal(transcoder_ba);
-				}else if(configure.getName().equals("transcoder_scale_w")){
-					configure.setVal(transcoder_scale_w);
-				}else if(configure.getName().equals("transcoder_scale_h")){
-					configure.setVal(transcoder_scale_h);
-				}else if(configure.getName().equals("transcoder_watermarkuse")){
-					configure.setVal(transcoder_watermarkuse);
-				}else if(configure.getName().equals("transcoder_watermark_url")){
-					configure.setVal(transcoder_watermark_url);
-				}else if(configure.getName().equals("transcoder_watermark_x")){
-					configure.setVal(transcoder_watermark_x);
-				}else if(configure.getName().equals("transcoder_watermark_y")){
-					configure.setVal(transcoder_watermark_y);
-				}else if(configure.getName().equals("transcoder_keepaspectratio")){
-					configure.setVal(transcoder_keepaspectratio);
-				}else if(configure.getName().equals("transcoder_outfmt")){
-					configure.setVal(transcoder_outfmt);
+				if(configure.getName().equals("vcodec")){
+					configure.setVal(vcodec);
+				}else if(configure.getName().equals("vbitrate")){
+					configure.setVal(vbitrate);
+				}else if(configure.getName().equals("vfps")){
+					configure.setVal(vfps);
+				}else if(configure.getName().equals("vreso")){
+					configure.setVal(vreso);
+				}else if(configure.getName().equals("keepaspectratio")){
+					configure.setVal(keepaspectratio);
+				}else if(configure.getName().equals("acodec")){
+					configure.setVal(acodec);
+				}else if(configure.getName().equals("abitrate")){
+					configure.setVal(abitrate);
+				}else if(configure.getName().equals("dash_mpdname")){
+					configure.setVal(dash_mpdname);
+				}else if(configure.getName().equals("dash_segmentsize")){
+					configure.setVal(dash_segmentsize);
+				}else if(configure.getName().equals("dash_tisi")){
+					configure.setVal(dash_tisi);
+				}else if(configure.getName().equals("watermarkuse")){
+					configure.setVal(watermarkuse);
+				}else if(configure.getName().equals("watermark_url")){
+					configure.setVal(watermark_url);
+				}else if(configure.getName().equals("watermark_cor")){
+					configure.setVal(watermark_cor);
 				}else if(configure.getName().equals("thumbnail_ss")){
 					configure.setVal(thumbnail_ss);
 				}else if(configure.getName().equals("folder_videoori")){
@@ -302,9 +269,20 @@ public class ConfigureUpdate extends ActionSupport {
 						str=str.substring(1);
 					}
 					configure.setVal(str);
-				}else if(configure.getName().equals("folder_video")){
+				}else if(configure.getName().equals("folder_dashfiles")){
 					//Simple Check
-					String str=folder_video;
+					String str=folder_dashfiles;
+					int strlenth=str.length();
+					if(str.charAt(strlenth-1)=='/'){
+						str=str.substring(0, strlenth-1);
+					}
+					if(str.charAt(0)=='/'){
+						str=str.substring(1);
+					}
+					configure.setVal(str);
+				}else if(configure.getName().equals("folder_logs")){
+					//Simple Check
+					String str=folder_logs;
 					int strlenth=str.length();
 					if(str.charAt(strlenth-1)=='/'){
 						str=str.substring(0, strlenth-1);
@@ -324,16 +302,6 @@ public class ConfigureUpdate extends ActionSupport {
 						str=str.substring(1);
 					}
 					configure.setVal(str);
-				}
-				//DASH Support
-				else if(configure.getName().equals("dash_v_bitrate_settings")){
-					configure.setVal(dash_v_bitrate_settings);
-				}
-				else if(configure.getName().equals("dash_a_bitrate_settings")){
-					configure.setVal(dash_a_bitrate_settings);
-				}
-				else if(configure.getName().equals("dash_segment_size")){
-					configure.setVal(dash_segment_size);
 				}
 				baseService.update(configure);
 			} 
