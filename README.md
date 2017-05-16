@@ -6,6 +6,8 @@ dont support live DASH currently
 Dependencies:
 DASHEncoder2 (https://github.com/zhanghuicuc/DASHEncoder2) and FFmpeg 
 
+Note: change url in VideoTranscoderThread.java@copyReports and index.jsp@setDataXML for your own url if you want to presentation related log during client playback
+
 张晖
 Hui Zhang
 中国传媒大学/数字电视技术
